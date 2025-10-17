@@ -13,6 +13,7 @@ interface AppConfig {
   node_env: string;
   port: string;
   database_url: string;
+  bcrypt_salt_rounds: number;
   cloudinary: CloudinaryConfig;
 }
 
@@ -20,6 +21,7 @@ const config: AppConfig = {
   node_env: process.env.NODE_ENV || "development",
   port: process.env.PORT || "5000",
   database_url: process.env.DATABASE_URL || "",
+  bcrypt_salt_rounds: Number(process.env.BCRYPT_SALT_ROUNDS) || 10,
   cloudinary: {
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME || "",
     api_key: process.env.CLOUDINARY_API_KEY || "",

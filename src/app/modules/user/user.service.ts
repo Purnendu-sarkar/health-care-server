@@ -1,8 +1,8 @@
 import { Request } from "express";
 import { prisma } from "../../shared/prisma";
-import { createPatientInput } from "./user.interface";
 import bcrypt from "bcryptjs";
 import { fileUploader } from "../../helper/fileUploader";
+import config from "../../config";
 
 
 const createPatient = async (req: Request) => {
@@ -13,7 +13,7 @@ const createPatient = async (req: Request) => {
     }
 
 
-    const hashPassword = await bcrypt.hash(req.body.password, 10);
+    const hashPassword = await bcrypt.hash(req.body.password, config.bcrypt_salt_rounds);
 
     const result = await prisma.$transaction(async (tnx) => {
         await tnx.user.create({
