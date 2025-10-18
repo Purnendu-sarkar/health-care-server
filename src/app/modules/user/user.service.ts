@@ -3,9 +3,9 @@ import { prisma } from "../../shared/prisma";
 import bcrypt from "bcryptjs";
 import { fileUploader } from "../../helper/fileUploader";
 import config from "../../config";
-import { paginationHelper } from "../../helper/paginationHelper";
+import { IOptions, paginationHelper } from "../../helper/paginationHelper";
 import { Prisma } from "@prisma/client";
-import { userFilterableFields } from "./user.constant";
+import { userFilterableFields, userSearchableFields } from "./user.constant";
 
 
 const createPatient = async (req: Request) => {
@@ -35,19 +35,19 @@ const createPatient = async (req: Request) => {
 
 }
 
-const getAllFromDB = async (params: any, options: any) => {
-    const { page, limit, skip, sortBy, sortOrder } = paginationHelper.calculatePagination(options);
+const getAllFromDB = async (params: any, options: IOptions) => {
+    const { page, limit, skip, sortBy, sortOrder } = paginationHelper.calculatePagination(options)
     const { searchTerm, ...filterData } = params;
 
     const andConditions: Prisma.UserWhereInput[] = [];
 
     if (searchTerm) {
         andConditions.push({
-            OR: userFilterableFields.map(field => ({
+            OR: userSearchableFields.map(field => ({
                 [field]: {
                     contains: searchTerm,
                     mode: "insensitive"
-                },
+                }
             }))
         })
     }
@@ -62,19 +62,31 @@ const getAllFromDB = async (params: any, options: any) => {
         })
     }
 
+    const whereConditions: Prisma.UserWhereInput = andConditions.length > 0 ? {
+        AND: andConditions
+    } : {}
+
     const result = await prisma.user.findMany({
         skip,
         take: limit,
 
-        where: {
-            AND: andConditions
-        },
-
+        where: whereConditions,
         orderBy: {
             [sortBy]: sortOrder
         }
     });
-    return result;
+
+    const total = await prisma.user.count({
+        where: whereConditions
+    });
+    return {
+        meta: {
+            page,
+            limit,
+            total
+        },
+        data: result
+    };
 }
 
 export const UserService = {
