@@ -5,7 +5,7 @@ import sendResponse from "../../shared/sendResponse";
 
 const createPatient = catchAsync(async (req: Request, res: Response) => {
     const result = await UserService.createPatient(req);
-    console.log(result)
+    // console.log(result)
 
     sendResponse(res, {
         statusCode: 201,
@@ -15,6 +15,19 @@ const createPatient = catchAsync(async (req: Request, res: Response) => {
     })
 })
 
+
+const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
+    const result = await UserService.getAllFromDB();
+
+    sendResponse(res, {
+        statusCode: 201,
+        success: true,
+        message: "User retrieved successfully!✅",
+        data: result
+    })
+})
+
 export const UserController = {
-    createPatient
+    createPatient,
+    getAllFromDB
 }
