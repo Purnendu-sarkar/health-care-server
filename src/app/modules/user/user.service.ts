@@ -3,6 +3,9 @@ import { prisma } from "../../shared/prisma";
 import bcrypt from "bcryptjs";
 import { fileUploader } from "../../helper/fileUploader";
 import config from "../../config";
+import { paginationHelper } from "../../helper/paginationHelper";
+import { Prisma } from "@prisma/client";
+import { userFilterableFields } from "./user.constant";
 
 
 const createPatient = async (req: Request) => {
@@ -32,27 +35,43 @@ const createPatient = async (req: Request) => {
 
 }
 
-const getAllFromDB = async ({ page, limit, searchTerm, sortBy, sortOrder, role, status }: { page: number, limit: number, searchTerm?: any, sortBy: any, sortOrder: any, role: any, status: any }) => {
-    const pageNumber = page || 1;
-    const limitNumber = limit || 10;
-    const skip = (pageNumber - 1) * limitNumber;
+const getAllFromDB = async (params: any, options: any) => {
+    const { page, limit, skip, sortBy, sortOrder } = paginationHelper.calculatePagination(options);
+    const { searchTerm, ...filterData } = params;
+
+    const andConditions: Prisma.UserWhereInput[] = [];
+
+    if (searchTerm) {
+        andConditions.push({
+            OR: userFilterableFields.map(field => ({
+                [field]: {
+                    contains: searchTerm,
+                    mode: "insensitive"
+                },
+            }))
+        })
+    }
+
+    if (Object.keys(filterData).length > 0) {
+        andConditions.push({
+            AND: Object.keys(filterData).map(key => ({
+                [key]: {
+                    equals: (filterData as any)[key]
+                }
+            }))
+        })
+    }
+
     const result = await prisma.user.findMany({
         skip,
-        take: limitNumber,
+        take: limit,
 
         where: {
-            email: {
-                contains: searchTerm,
-                mode: "insensitive"
-            },
-            status: status,
-            role: role
+            AND: andConditions
         },
 
-        orderBy: sortBy && sortOrder ? {
+        orderBy: {
             [sortBy]: sortOrder
-        } : {
-            createdAt: "desc"
         }
     });
     return result;
