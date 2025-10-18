@@ -32,11 +32,18 @@ const createPatient = async (req: Request) => {
 
 }
 
-const getAllFromDB = async ({ page, limit }: { page: number, limit: number }) => {
+const getAllFromDB = async ({ page, limit, searchTerm }: { page: number, limit: number, searchTerm?: any }) => {
     const skip = (page - 1) * limit;
     const result = await prisma.user.findMany({
         skip,
-        take: limit
+        take: limit,
+
+        where: {
+            email: {
+                contains: searchTerm,
+                mode: "insensitive"
+            }
+        }
     });
     return result;
 }
