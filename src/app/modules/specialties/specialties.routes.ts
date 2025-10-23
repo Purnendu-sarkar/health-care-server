@@ -6,6 +6,11 @@ import { fileUploader } from '../../helper/fileUploader';
 
 const router = express.Router();
 
+router.get(
+    '/',
+    SpecialtiesController.getAllFromDB
+);
+
 router.post(
     '/',
     fileUploader.upload.single('file'),
