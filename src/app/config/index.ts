@@ -19,6 +19,7 @@ interface AppConfig {
   jwt_access_expires: string;
   jwt_refresh_expires: string;
   cloudinary: CloudinaryConfig;
+  openrouter_api_key?: string;
 }
 
 const config: AppConfig = {
@@ -35,6 +36,7 @@ const config: AppConfig = {
     api_key: process.env.CLOUDINARY_API_KEY || "",
     api_secret: process.env.CLOUDINARY_API_SECRET || "",
   },
+  openrouter_api_key: process.env.OPENROUTER_API_KEY || "",
 };
 
 export default config;
