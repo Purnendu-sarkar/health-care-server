@@ -1,3 +1,4 @@
+import { stripe } from './../helper/stripe';
 import dotenv from "dotenv";
 import path from "path";
 
@@ -20,6 +21,8 @@ interface AppConfig {
   jwt_refresh_expires: string;
   cloudinary: CloudinaryConfig;
   openrouter_api_key?: string;
+  stripeSecretKey?: string;
+  stripeWebhookSecret?: string;
 }
 
 const config: AppConfig = {
@@ -37,6 +40,8 @@ const config: AppConfig = {
     api_secret: process.env.CLOUDINARY_API_SECRET || "",
   },
   openrouter_api_key: process.env.OPENROUTER_API_KEY || "",
+  stripeSecretKey: process.env.STRIPE_SECRET_KEY,
+  stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
 };
 
 export default config;
