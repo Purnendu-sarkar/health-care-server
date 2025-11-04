@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { Patient, Prisma } from '@prisma/client';
 import { IPatientFilterRequest } from './patient.interface';
 import { IOptions, paginationHelper } from '../../helper/paginationHelper';
 import { patientSearchableFields } from './patient.constant';
@@ -68,6 +68,18 @@ const getAllFromDB = async (
     };
 };
 
+const getByIdFromDB = async (id: string): Promise<Patient | null> => {
+    const result = await prisma.patient.findUnique({
+        where: {
+            id,
+            isDeleted: false,
+        },
+    });
+    return result;
+};
+
+
 export const PatientService = {
     getAllFromDB,
+    getByIdFromDB
 };
