@@ -5,6 +5,8 @@ import bcrypt from "bcryptjs";
 import { jwtHelper } from "../../helper/jwtHelper";
 import config from "../../config";
 import ApiError from "../../errors/ApiError";
+import emailSender from './emailSender';
+import { Secret } from 'jsonwebtoken';
 
 const login = async (payload: { email: string, password: string }) => {
     const user = await prisma.user.findUniqueOrThrow({
@@ -21,14 +23,14 @@ const login = async (payload: { email: string, password: string }) => {
 
     const accessToken = jwtHelper.generateToken(
         { email: user.email, role: user.role },
-        config.jwt_access_secret,
-        config.jwt_access_expires
+        config.jwt.jwt_access_secret,
+        config.jwt.jwt_access_expires
     );
 
     const refreshToken = jwtHelper.generateToken(
         { email: user.email, role: user.role },
-        config.jwt_refresh_secret,
-        config.jwt_refresh_expires
+        config.jwt.jwt_refresh_secret,
+        config.jwt.jwt_refresh_expires
     );
 
     return {
@@ -69,8 +71,43 @@ const changePassword = async (user: any, payload: any) => {
     }
 };
 
+const forgotPassword = async (payload: { email: string }) => {
+    const userData = await prisma.user.findUniqueOrThrow({
+        where: {
+            email: payload.email,
+            status: UserStatus.ACTIVE
+        }
+    });
+
+    const resetPassToken = jwtHelper.generateToken(
+        { email: userData.email, role: userData.role },
+        config.jwt.reset_pass_secret as Secret,
+        config.jwt.reset_pass_token_expires_in as string
+    )
+
+    const resetPassLink = config.reset_pass_link + `?userId=${userData.id}&token=${resetPassToken}`
+
+    await emailSender(
+        userData.email,
+        `
+        <div>
+            <p>Dear User,</p>
+            <p>Your password reset link 
+                <a href=${resetPassLink}>
+                    <button>
+                        Reset Password
+                    </button>
+                </a>
+            </p>
+
+        </div>
+        `
+    )
+};
+
 
 export const AuthService = {
     login,
-    changePassword
+    changePassword,
+    forgotPassword
 }
