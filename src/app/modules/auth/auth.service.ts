@@ -105,9 +105,40 @@ const forgotPassword = async (payload: { email: string }) => {
     )
 };
 
+const refreshToken = async (token: string) => {
+    let decodedData;
+    try {
+        decodedData = jwtHelper.verifyToken(token, config.jwt.jwt_refresh_secret  as Secret);
+    }
+    catch (err) {
+        throw new Error("You are not authorized!")
+    }
+
+    const userData = await prisma.user.findUniqueOrThrow({
+        where: {
+            email: decodedData.email,
+            status: UserStatus.ACTIVE
+        }
+    });
+
+    const accessToken = jwtHelper.generateToken({
+        email: userData.email,
+        role: userData.role
+    },
+        config.jwt.jwt_access_secret as Secret,
+        config.jwt.jwt_access_expires as string
+    );
+
+    return {
+        accessToken,
+        needPasswordChange: userData.needPasswordChange
+    };
+};
+
 
 export const AuthService = {
     login,
     changePassword,
-    forgotPassword
+    forgotPassword,
+     refreshToken
 }
