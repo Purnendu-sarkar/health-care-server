@@ -1,8 +1,8 @@
 import { Patient, Prisma, UserStatus } from '@prisma/client';
 import { IPatientFilterRequest } from './patient.interface';
-import { IOptions, paginationHelper } from '../../helper/paginationHelper';
+import { IOptions, paginationHelper } from '../../../helpers/paginationHelper';
 import { patientSearchableFields } from './patient.constant';
-import { prisma } from '../../shared/prisma';
+import { prisma } from '../../../shared/prisma';
 import { IJWTPayload } from '../../types/common';
 
 

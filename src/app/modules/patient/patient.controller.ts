@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
-import catchAsync from '../../shared/catchAsync';
+import catchAsync from '../../../shared/catchAsync';
 import { patientFilterableFields } from './patient.constant';
-import pick from '../../helper/pick';
+import pick from '../../../helpers/pick';
 import { PatientService } from './patient.service';
-import sendResponse from '../../shared/sendResponse';
+import sendResponse from '../../../shared/sendResponse';
 import { IJWTPayload } from '../../types/common';
 
 

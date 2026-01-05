@@ -1,6 +1,6 @@
 import httpStatus from 'http-status';
 import { NextFunction, Request, Response } from "express"
-import { jwtHelper } from "../helper/jwtHelper";
+import { jwtHelper } from "../../helpers/jwtHelper";
 import config from "../config";
 import ApiError from "../errors/ApiError";
 import { Secret } from 'jsonwebtoken';

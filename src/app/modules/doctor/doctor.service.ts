@@ -1,12 +1,12 @@
 import httpStatus from 'http-status';
 import { Doctor, Prisma } from "@prisma/client";
-import { IOptions, paginationHelper } from "../../helper/paginationHelper";
+import { IOptions, paginationHelper } from "../../../helpers/paginationHelper";
 import { doctorSearchableFields } from "./doctor.constant";
-import { prisma } from "../../shared/prisma";
+import { prisma } from "../../../shared/prisma";
 import { IDoctorUpdateInput } from "./doctor.interface";
-import { openai } from "../../helper/open-router";
+import { openai } from "../../../helpers/open-router";
 import ApiError from "../../errors/ApiError";
-import { extractJsonFromMessage } from '../../helper/extractJsonFromMessage';
+import { extractJsonFromMessage } from '../../../helpers/extractJsonFromMessage';
 
 const getAllFromDB = async (filters: any, options: IOptions) => {
     const { page, limit, skip, sortBy, sortOrder } = paginationHelper.calculatePagination(options);

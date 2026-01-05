@@ -1,8 +1,8 @@
 import httpStatus from 'http-status';
 import { UserStatus } from "@prisma/client"
-import { prisma } from "../../shared/prisma"
+import { prisma } from "../../../shared/prisma"
 import bcrypt from "bcryptjs";
-import { jwtHelper } from "../../helper/jwtHelper";
+import { jwtHelper } from "../../../helpers/jwtHelper";
 import config from "../../config";
 import ApiError from "../../errors/ApiError";
 import emailSender from './emailSender';

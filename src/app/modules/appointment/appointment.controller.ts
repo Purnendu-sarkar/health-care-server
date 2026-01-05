@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import catchAsync from "../../shared/catchAsync";
+import catchAsync from "../../../shared/catchAsync";
 import { AppointmentService } from "./appointment.service";
-import sendResponse from "../../shared/sendResponse";
+import sendResponse from "../../../shared/sendResponse";
 import { IJWTPayload } from "../../types/common";
-import pick from "../../helper/pick";
+import pick from "../../../helpers/pick";
 
 
 const createAppointment = catchAsync(async (req: Request & { user?: IJWTPayload }, res: Response) => {

@@ -1,7 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { SpecialtiesController } from './specialties.controller';
 import { SpecialtiesValidtaion } from './specialties.validation';
-import { fileUploader } from '../../helper/fileUploader';
+import { fileUploader } from '../../../helpers/fileUploader';
 import { UserRole } from '@prisma/client';
 import auth from '../../middlewares/auth';
 

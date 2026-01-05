@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import catchAsync from "../../shared/catchAsync";
+import catchAsync from "../../../shared/catchAsync";
 import { PaymentService } from "./payment.service";
-import sendResponse from "../../shared/sendResponse";
-import { stripe } from "../../helper/stripe";
+import sendResponse from "../../../shared/sendResponse";
+import { stripe } from "../../../helpers/stripe";
 import config from "../../config";
 
 const handleStripeWebhookEvent = catchAsync(async (req: Request, res: Response) => {

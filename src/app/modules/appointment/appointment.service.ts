@@ -1,8 +1,8 @@
 import httpStatus from 'http-status';
 import { AppointmentStatus, PaymentStatus, Prisma, UserRole } from "@prisma/client";
-import { IOptions, paginationHelper } from "../../helper/paginationHelper";
-import { stripe } from "../../helper/stripe";
-import { prisma } from "../../shared/prisma";
+import { IOptions, paginationHelper } from "../../../helpers/paginationHelper";
+import { stripe } from "../../../helpers/stripe";
+import { prisma } from "../../../shared/prisma";
 import { IJWTPayload } from "../../types/common";
 import { v4 as uuidv4 } from 'uuid';
 import ApiError from "../../errors/ApiError";

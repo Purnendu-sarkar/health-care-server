@@ -1,10 +1,10 @@
 import httpStatus from 'http-status';
 import { Request, Response } from "express";
-import catchAsync from "../../shared/catchAsync";
+import catchAsync from "../../../shared/catchAsync";
 import { IJWTPayload } from "../../types/common";
 import { PrescriptionService } from "./prescription.service";
-import sendResponse from "../../shared/sendResponse";
-import pick from "../../helper/pick";
+import sendResponse from "../../../shared/sendResponse";
+import pick from "../../../helpers/pick";
 
 const createPrescription = catchAsync(async (req: Request & { user?: IJWTPayload }, res: Response) => {
     const user = req.user;

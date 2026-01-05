@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import catchAsync from "../../shared/catchAsync";
-import sendResponse from "../../shared/sendResponse";
+import catchAsync from "../../../shared/catchAsync";
+import sendResponse from "../../../shared/sendResponse";
 import { ScheduleService } from "./schedule.service";
-import pick from "../../helper/pick";
+import pick from "../../../helpers/pick";
 import { IJWTPayload } from "../../types/common";
 
 

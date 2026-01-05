@@ -1,9 +1,9 @@
 import httpStatus from 'http-status';
 import { Request, Response } from "express";
-import catchAsync from "../../shared/catchAsync";
+import catchAsync from "../../../shared/catchAsync";
 import { UserService } from "./user.service";
-import sendResponse from "../../shared/sendResponse";
-import pick from "../../helper/pick";
+import sendResponse from "../../../shared/sendResponse";
+import pick from "../../../helpers/pick";
 import { userFilterableFields } from "./user.constant";
 import { IJWTPayload } from "../../types/common";
 

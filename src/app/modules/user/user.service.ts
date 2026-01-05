@@ -1,9 +1,9 @@
 import { Request } from "express";
-import { prisma } from "../../shared/prisma";
+import { prisma } from "../../../shared/prisma";
 import bcrypt from "bcryptjs";
-import { fileUploader } from "../../helper/fileUploader";
+import { fileUploader } from "../../../helpers/fileUploader";
 import config from "../../config";
-import { IOptions, paginationHelper } from "../../helper/paginationHelper";
+import { IOptions, paginationHelper } from "../../../helpers/paginationHelper";
 import { Admin, Doctor, Prisma, UserRole, UserStatus } from "@prisma/client";
 import { userSearchableFields } from "./user.constant";
 import { IJWTPayload } from "../../types/common";
